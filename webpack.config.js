@@ -52,16 +52,16 @@ module.exports = {
                     'file-loader'
                 ]
             },
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ["react"]
-                    }
-                }
-            },
+            // {
+            //     test: /\.js$/,
+            //     exclude: /node_modules/,
+            //     use: {
+            //         loader: 'babel-loader',
+            //         options: {
+            //             presets: ["react"]
+            //         }
+            //     }
+            // },
             {
                 test: /\.(html|ico)$/,
                 use: [
@@ -69,12 +69,12 @@ module.exports = {
                 ]
             },
             {
-                test: /.jsx?$/,
+                test: /\.(jsx|js)?$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader",
+                    loader: 'babel-loader?presets[]=react,presets[]=es2015,presets[]=stage-0',
                     options: {
-                        presets: ["es2015", "react"]
+                        presets: ["es2015", "react", "stage-0"]
                     }
                 }
             }

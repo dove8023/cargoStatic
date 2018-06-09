@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import "./css/index.css";
 import 'antd/dist/antd.css';
 
-import APP from "./components/MAIN.jsx";
+import MAIN from "./components/MAIN.jsx";
 
 ReactDOM.render(
-    <APP />,
+    <MAIN />,
     document.getElementById("root")
 );

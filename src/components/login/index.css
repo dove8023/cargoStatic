@@ -1,10 +1,31 @@
 /*
  * @Author: Mr.He 
  * @Date: 2018-06-08 18:18:26 
- * @Last Modified by:   Mr.He 
- * @Last Modified time: 2018-06-08 18:18:26 
+ * @Last Modified by: Mr.He
+ * @Last Modified time: 2018-06-09 11:16:52
  * @content: 
  */
 
+ #backBox{
+     background: #85b9e8;
+ }
 
- 
+ .login-box{
+     position: absolute;
+     width: 300px;
+     top: 50%;
+     left: 50%;
+     margin: -100px 0 0 -150px;
+     background: #fff;
+     border-radius: 10px;
+     padding: 15px;
+ }
+ #components-form-demo-normal-login .login-form {
+  max-width: 300px;
+}
+#components-form-demo-normal-login .login-form-forgot {
+  float: right;
+}
+#components-form-demo-normal-login .login-form-button {
+  width: 100%;
+}
