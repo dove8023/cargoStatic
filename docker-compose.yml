@@ -1,0 +1,6 @@
+version: '2'
+services:
+  tik-back-web:
+    image: tikcoin-back-web:1.0.1
+    stdin_open: true
+    tty: true

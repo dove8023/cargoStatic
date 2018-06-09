@@ -1,0 +1,51 @@
+h1,h2,h3,h4,h5,h6,p, ul, ol, li{
+    margin: 0;
+    padding:0;
+}
+ul,ol,li{
+    list-style: none;
+}
+body{
+    font-family: "myPingFang", "PingFangSC", "Source Han Serif", "微软雅黑";
+}
+
+
+
+.content{
+    width: 1200px;
+    margin: auto;
+}
+
+.height65{
+    height: 65px;
+}
+
+.pt60{
+    padding-top: 60px;
+}
+
+.mb5{
+    margin-bottom: 5px;
+}
+
+.mb10{
+    margin-bottom: 10px;
+}
+
+.mb20{
+    margin-bottom: 20px;
+}
+
+.mb30{
+    margin-bottom: 30px;
+}
+
+
+
+#components-layout-demo-top-side-2 .logo {
+    width: 120px;
+    height: 31px;
+    background: rgba(255,255,255,.2);  
+    margin: 16px 28px 16px 0;
+    float: left;
+  }

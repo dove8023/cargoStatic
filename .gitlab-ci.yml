@@ -1,0 +1,35 @@
+cache:
+    untracked: true
+    key: cache_${CI_COMMIT_REF_SLUG}
+stages:
+  - build
+  - deploy
+
+job_build:
+  stage: build
+  image: node:9.11.1
+  script:
+    - npm install --registry=https://registry.npm.taobao.org
+    - npm run build
+  variables:
+    APP_NAME: tikBackWeb
+    APP_ID: 1004
+    API_PORT: 3004
+    NODE_ENV: development
+    LOGGER: daily
+    LOG_PATH: /tmp
+    BACK_SYSTEM_URL: http://172.20.160.7:11004
+
+job_build_2:
+  stage: build
+  image: gitlab/dind
+  script:
+    - docker build -t tikcoin-back-web:1.0.1 .
+    
+
+job_deploy:
+  stage: deploy
+  image: registry.cn-hangzhou.aliyuncs.com/dev_tool/rancher-cli
+  script:
+    - rm -f ~/.rancher/cli.json
+    - rancher --url http://172.20.160.7:8080/v2-beta --access-key 3F9EAEABA64D4876F506 --secret-key vyg17c8244obWeB8HoSGeeHVg54LGdTWMVj4yU6V up -d  --pull --force-upgrade --confirm-upgrade --stack tikcoin-back-web-1.0.0
