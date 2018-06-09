@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-06-04 17:29:29 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-09 11:57:14
+ * @Last Modified time: 2018-06-09 17:09:57
  * @content: 
  */
 
@@ -32,21 +32,19 @@ export default class Login extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentWillMount() {
+        let token = sessionStorage.getItem("token");
+        if (token) {
+            location.hash = "/main";
+        }
+    }
+
     componentDidMount() {
-        // sessionStorage.setItem("token", "ok");
-        // setTimeout(() => {
-        //     location.hash = "/app";
-        // }, 3000);
-
-
         window.particlesJS("backBox", particlesConfig);
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-
-        console.log(this.state);
-
         axios({
             url: BACK_SYSTEM_URL + "/open/login",
             method: "post",
@@ -55,7 +53,14 @@ export default class Login extends Component {
                 password: this.state.password
             }
         }).then((resp) => {
-            console.log(resp);
+            let result = resp.data;
+            if (result.code != 0) {
+                alert(result.msg);
+                return console.error(result);
+            }
+
+            sessionStorage.setItem("token", result.data.token);
+            location.hash = "/main";
         })
     }
     onChangeUserName = (e) => {

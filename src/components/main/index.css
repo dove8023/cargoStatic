@@ -1,0 +1,16 @@
+/*
+ * @Author: Mr.He 
+ * @Date: 2018-06-09 17:15:30 
+ * @Last Modified by: Mr.He
+ * @Last Modified time: 2018-06-09 17:19:09
+ * @content what is the content of this file. */
+
+ .logo {
+    height: 32px;
+    background: rgba(255,255,255,.2);
+    margin: 16px;
+    font-size: 20px;
+    line-height: 32px;
+    text-align: center;
+    color: #fff;
+}
