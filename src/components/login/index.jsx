@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-06-04 17:29:29 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-09 17:09:57
+ * @Last Modified time: 2018-06-09 22:14:04
  * @content: 
  */
 
@@ -61,6 +61,9 @@ export default class Login extends Component {
 
             sessionStorage.setItem("token", result.data.token);
             location.hash = "/main";
+        }).catch((err) => {
+            console.log(err);
+            alert("Error: " + err.message);
         })
     }
     onChangeUserName = (e) => {

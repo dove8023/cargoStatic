@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-06-04 19:37:42 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-09 17:51:03
+ * @Last Modified time: 2018-06-10 12:22:15
  * @content: 
  */
 
@@ -12,6 +12,7 @@ import { Layout, Menu, Icon } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 import "./index.css";
 import MainSider from "./side.jsx";
+import Types from "../types/index.jsx";
 
 class Trade extends Component {
     render() {
@@ -68,6 +69,7 @@ export default class APP extends Component {
                             <div style={this.state.contentStyle}>
                                 <Route exact path="/main" component={Trade} />
                                 <Route path="/main/order" component={Order} />
+                                <Route path="/main/types" component={Types} />
                             </div>
                         </Content>
                         {/* <Footer style={{ textAlign: 'center' }}>

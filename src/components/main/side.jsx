@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-06-09 17:32:12 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-09 18:00:02
+ * @Last Modified time: 2018-06-10 12:20:57
  * @content: side. */
 
 import React, { Component } from "react";
@@ -40,7 +40,9 @@ export default class MainSider extends Component {
                     <Menu.Item key="3">
                         <Icon type="upload" />
                         <span className="nav-text">
-                            品种管理
+                            <Link to="/main/types">
+                                品种管理
+                            </Link>
                         </span>
                     </Menu.Item>
                     <Menu.Item key="4">

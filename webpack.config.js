@@ -4,9 +4,11 @@ const cleanWebpackPlugin = require("clean-webpack-plugin");
 const uglifyJsPlugin = require("uglifyjs-webpack-plugin");
 let conf = require('dotenv').load()
 const webpack = require("webpack");
+require("babel-core/register");
+require("babel-polyfill");
 
 module.exports = {
-    entry: ["./src/index.jsx"],
+    entry: ['babel-polyfill', "./src/index.jsx"],
     /* entry: {
         index: "./src/js/index.js",
         two: "./src/js/two.js"
