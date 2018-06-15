@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-06-10 12:22:21 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-10 23:37:58
+ * @Last Modified time: 2018-06-11 22:34:51
  * @content what is the content of this file. */
 
 import React, { Component } from "react";
@@ -23,7 +23,8 @@ export default class Types extends Component {
         modalLoading: false,
         modalData: {
             method: "put"
-        }
+        },
+        token: ""
     }
 
     handleCancel = () => {
@@ -46,7 +47,7 @@ export default class Types extends Component {
             url: data.method == "put" ? "/types/" + this.state.currentData.id : "/types",
             method: data.method,
             headers: {
-                token: "ed6c3776cdfd2c856f28dde23c05eb56"
+                token: this.state.token
             },
             data
         }).then((result) => {
@@ -70,10 +71,12 @@ export default class Types extends Component {
 
     fetchList = (page = 0, limit = 20) => {
         this.state.loading = true;
+
+        console.log("get data token : ", this.state.token)
         Ajax({
             url: "/types",
             headers: {
-                token: "ed6c3776cdfd2c856f28dde23c05eb56"
+                token: this.state.token
             },
             params: {
                 page,
@@ -131,6 +134,15 @@ export default class Types extends Component {
         })
     }
 
+    componentWillMount() {
+        let token = sessionStorage.getItem("token");
+        console.log("type get token", token);
+        if (!token) {
+            location.hash = "/";
+        } else {
+            this.state.token = token;
+        }
+    }
     componentDidMount() {
         this.fetchList();
     }

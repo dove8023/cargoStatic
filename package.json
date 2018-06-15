@@ -7,7 +7,9 @@
     "test": "exit 0",
     "build": "npx webpack",
     "watch": "npx webpack --watch --process",
-    "server": "npx http-server './dist'"
+    "server": "npx http-server './dist'",
+    "docker": "npx webpack && docker build -t cargostatic:last .",
+    "dockerServer": "docker run --name cargostatic -d -p 3003:80 cargostatic:last"
   },
   "keywords": [],
   "author": "",
