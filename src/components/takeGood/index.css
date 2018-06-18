@@ -1,0 +1,23 @@
+/*
+ * @Author: Mr.He 
+ * @Date: 2018-06-18 17:13:46 
+ * @Last Modified by: Mr.He
+ * @Last Modified time: 2018-06-18 17:38:43
+ * @content what is the content of this file. */
+
+
+.take-good-list li{
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+    padding: 5px 0;
+    margin-bottom: 10px;
+ }
+
+ i.take-good-list-close{
+    float: right!important;
+    margin-top: 5px;
+    padding: 5px;
+ }    
+ .color-black{
+     color: black!important;
+ }

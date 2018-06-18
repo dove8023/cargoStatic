@@ -18,7 +18,9 @@ body{
 .fr{
     float: right;
 }
-
+.clear{
+    overflow: hidden;
+}
 .content{
     width: 1200px;
     margin: auto;
@@ -48,7 +50,9 @@ body{
     margin-bottom: 30px;
 }
 
-
+.mr10{
+    margin-right: 10px;
+}
 
 #components-layout-demo-top-side-2 .logo {
     width: 120px;
@@ -57,3 +61,6 @@ body{
     margin: 16px 28px 16px 0;
     float: left;
   }
+span.ant-layout-sider-zero-width-trigger{
+    top: 40px;
+}
