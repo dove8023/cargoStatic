@@ -9,7 +9,9 @@ body{
     font-family: "myPingFang", "PingFangSC", "Source Han Serif", "微软雅黑";
 }
 
-
+.nav-text a{
+    color: #fff;
+}
 .fl{
     float: left;
 }
