@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-06-10 12:22:21 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-11 22:34:51
+ * @Last Modified time: 2018-06-18 15:16:06
  * @content what is the content of this file. */
 
 import React, { Component } from "react";
@@ -23,8 +23,7 @@ export default class Types extends Component {
         modalLoading: false,
         modalData: {
             method: "put"
-        },
-        token: ""
+        }
     }
 
     handleCancel = () => {
@@ -33,67 +32,65 @@ export default class Types extends Component {
         })
     }
 
-    handleOk = () => {
+    handleOk = async () => {
         let { modalData: data } = this.state;
         if (Number(data.price) <= 0 || !data.name) {
             alert("请输入正确的数据");
             return;
         }
 
-        this.setState({
-            modalLoading: true
-        });
-        Ajax({
+        let result = await Ajax({
             url: data.method == "put" ? "/types/" + this.state.currentData.id : "/types",
             method: data.method,
-            headers: {
-                token: this.state.token
+            data,
+            before: () => {
+                this.setState({
+                    modalLoading: true
+                })
             },
-            data
-        }).then((result) => {
-            if (result.code != 0) {
-                return alert(result.msg);
+            complete: () => {
+                this.setState({
+                    modalLoading: false
+                });
             }
+        });
+        if (result.code != 0) {
+            return alert(result.msg);
+        }
 
-            this.setState({
-                modalLoading: false,
-                visible: false
-            });
-            this.fetchList();
-        }).catch((err) => {
-            alert(err.message);
-        }).finally(() => {
-            this.setState({
-                modalLoading: false
-            })
-        })
+        this.setState({
+            visible: false
+        });
+        this.fetchList();
     }
 
-    fetchList = (page = 0, limit = 20) => {
-        this.state.loading = true;
-
-        console.log("get data token : ", this.state.token)
-        Ajax({
+    fetchList = async (page = 0, limit = 20) => {
+        let result = await Ajax({
             url: "/types",
-            headers: {
-                token: this.state.token
-            },
             params: {
                 page,
                 limit
+            },
+            before: () => {
+                this.setState({
+                    loading: true
+                })
+            },
+            complete: () => {
+                this.setState({
+                    loading: false
+                });
             }
-        }).then((result) => {
-            this.setState({
-                listData: result.data.rows
-            })
-        }).catch((err, msg) => {
-            // console.log(err, msg);
-            alert(err.message)
-        }).finally(() => {
-            // console.log("finally");
-            this.setState({
-                loading: false
-            })
+        });
+
+        console.log(result);
+
+        if (!result) {
+            return;
+        }
+
+        this.setState({
+            listData: result.data.rows
         })
     }
 
@@ -134,15 +131,6 @@ export default class Types extends Component {
         })
     }
 
-    componentWillMount() {
-        let token = sessionStorage.getItem("token");
-        console.log("type get token", token);
-        if (!token) {
-            location.hash = "/";
-        } else {
-            this.state.token = token;
-        }
-    }
     componentDidMount() {
         this.fetchList();
     }

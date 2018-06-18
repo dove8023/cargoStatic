@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-06-04 17:29:29 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-09 22:14:04
+ * @Last Modified time: 2018-06-18 11:01:58
  * @content: 
  */
 
@@ -10,10 +10,9 @@ import React, { Component } from "react";
 import particlesConfig from "./particles.json";
 import "./index.css";
 import "particles.js";
-import axios from "axios";
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 const FormItem = Form.Item;
-import { BACK_SYSTEM_URL } from "../../../config";
+import { Ajax } from "../../utils/common";
 
 
 export default class Login extends Component {
@@ -43,28 +42,22 @@ export default class Login extends Component {
         window.particlesJS("backBox", particlesConfig);
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
-        axios({
-            url: BACK_SYSTEM_URL + "/open/login",
+        let result = await Ajax({
+            url: "/open/login",
             method: "post",
             data: {
                 mobile: this.state.username,
                 password: this.state.password
             }
-        }).then((resp) => {
-            let result = resp.data;
-            if (result.code != 0) {
-                alert(result.msg);
-                return console.error(result);
-            }
-
-            sessionStorage.setItem("token", result.data.token);
+        });
+        if (result.code == 0) {
+            sessionStorage.setItem("token", result.data);
             location.hash = "/main";
-        }).catch((err) => {
-            console.log(err);
-            alert("Error: " + err.message);
-        })
+        } else {
+            alert(result.msg);
+        }
     }
     onChangeUserName = (e) => {
         this.state.username = e.target.value;

@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-05-28 11:34:39 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-10 18:20:28
+ * @Last Modified time: 2018-06-18 12:22:34
  */
 
 import axios from "axios";
@@ -14,15 +14,45 @@ export function isMobile() {
 }
 
 export async function Ajax(params) {
-    let result = await axios({
-        url: BACK_SYSTEM_URL + params.url,
-        method: params.method || "get",
-        headers: params.headers,
-        params: params.params,
-        data: params.data
-    });
+    let { headers = {} } = params;
+    headers.token = sessionStorage.getItem("token");
 
+    params.before && params.before();
+    try {
+        let result = await axios({
+            url: BACK_SYSTEM_URL + params.url,
+            method: params.method || "get",
+            headers,
+            params: params.params,
+            data: params.data
+        });
+        console.log("ajax log", result);
 
-    // console.log(123, result);
-    return result.data;
+        let { code } = result.data;
+        if (code == 100100 || code == 100101) {
+            sessionStorage.clear();
+            return location.hash = "/";
+        }
+
+        return result.data;
+    } catch (e) {
+        throw new Error(e);
+    } finally {
+        params.complete && params.complete();
+    }
 }
+
+
+// Ajax({
+//     url: "/test",
+// });
+
+
+// Ajax({
+//     url: "/open/test",
+// });
+
+// Ajax({
+//     url: "/open/11test",
+// });
+
