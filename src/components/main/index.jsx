@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-06-04 19:37:42 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-18 15:35:57
+ * @Last Modified time: 2018-06-27 09:53:43
  * @content: 
  */
 
@@ -13,7 +13,7 @@ const { Header, Content, Footer, Sider } = Layout;
 import "./index.css";
 import MainSider from "./side.jsx";
 import Types from "../types/index.jsx";
-import TakeGood from "../takeGood/index.jsx";
+import TakeGood from "../takeGoods/index.jsx";
 
 export default class APP extends Component {
     constructor() {
