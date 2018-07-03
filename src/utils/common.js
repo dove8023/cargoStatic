@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-05-28 11:34:39 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-18 12:22:34
+ * @Last Modified time: 2018-07-03 23:16:46
  */
 
 import axios from "axios";
@@ -26,7 +26,6 @@ export async function Ajax(params) {
             params: params.params,
             data: params.data
         });
-        console.log("ajax log", result);
 
         let { code } = result.data;
         if (code == 100100 || code == 100101) {

@@ -2,17 +2,21 @@
  * @Author: Mr.He 
  * @Date: 2018-06-10 12:22:21 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-18 15:16:06
+ * @Last Modified time: 2018-07-03 23:52:26
  * @content what is the content of this file. */
 
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { List, Avatar, Button, Spin, Modal, InputNumber, Input } from 'antd';
 import { Ajax } from "../../utils/common";
 import "./index.css";
+import store from "../../store";
+import { fetchType, updateType } from "../../actions/index";
 
-export default class Types extends Component {
-    constructor() {
-        super();
+class Types extends Component {
+    constructor(props) {
+        super(props);
     }
 
     state = {
@@ -39,59 +43,30 @@ export default class Types extends Component {
             return;
         }
 
-        let result = await Ajax({
-            url: data.method == "put" ? "/types/" + this.state.currentData.id : "/types",
-            method: data.method,
-            data,
-            before: () => {
-                this.setState({
-                    modalLoading: true
-                })
-            },
-            complete: () => {
-                this.setState({
-                    modalLoading: false
-                });
-            }
-        });
-        if (result.code != 0) {
-            return alert(result.msg);
-        }
+        store.dispatch(updateType(this.state.currentData.id, data.price, data.name));
 
-        this.setState({
-            visible: false
-        });
-        this.fetchList();
-    }
+        // let result = await Ajax({
+        //     url: data.method == "put" ? "/types/" + this.state.currentData.id : "/types",
+        //     method: data.method,
+        //     data,
+        //     before: () => {
+        //         this.setState({
+        //             modalLoading: true
+        //         })
+        //     },
+        //     complete: () => {
+        //         this.setState({
+        //             modalLoading: false
+        //         });
+        //     }
+        // });
+        // if (result.code != 0) {
+        //     return alert(result.msg);
+        // }
 
-    fetchList = async (page = 0, limit = 20) => {
-        let result = await Ajax({
-            url: "/types",
-            params: {
-                page,
-                limit
-            },
-            before: () => {
-                this.setState({
-                    loading: true
-                })
-            },
-            complete: () => {
-                this.setState({
-                    loading: false
-                });
-            }
-        });
-
-        console.log(result);
-
-        if (!result) {
-            return;
-        }
-
-        this.setState({
-            listData: result.data.rows
-        })
+        // this.setState({
+        //     visible: false
+        // });
     }
 
     settings = (record) => {
@@ -131,8 +106,16 @@ export default class Types extends Component {
         })
     }
 
+    componentWillMount() { }
     componentDidMount() {
-        this.fetchList();
+        store.dispatch(fetchType())
+        // store.subscribe(() => {
+        //     let state = store.getState().types;
+        //     this.setState({
+        //         listData: state.rows,
+        //         loading: state.loading
+        //     })
+        // })
     }
 
     render() {
@@ -148,7 +131,7 @@ export default class Types extends Component {
                     className="demo-loadmore-list"
                     loading={this.state.loading}
                     itemLayout="horizontal"
-                    dataSource={this.state.listData}
+                    dataSource={this.props.listData}
                     renderItem={(item, index) => (
                         <div className="list">
                             <div className="fl">
@@ -166,7 +149,6 @@ export default class Types extends Component {
                         </div>
                     )}
                 />
-
                 <Modal
                     title="品种详情"
                     visible={this.state.visible}
@@ -191,3 +173,16 @@ export default class Types extends Component {
         );
     }
 }
+
+Types.propTypes = {
+    listData: PropTypes.array.isRequired
+}
+
+const mapStateToProps = (state) => {
+    let { rows } = state.types;
+    return {
+        listData: rows
+    }
+}
+
+export default connect(mapStateToProps)(Types);
