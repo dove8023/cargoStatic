@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-07-08 21:11:38 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-07-09 08:26:07
+ * @Last Modified time: 2018-07-09 22:43:23
  * @content what is the content of this file. */
 
 import React, { Component } from "react";
@@ -19,14 +19,7 @@ import { updateGoodsOrder, deleteGoodsOrder } from "../../actions/takeGoodOrder"
 class TakeGoodItem extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            data: this.props.data,
-            index: this.props.index
-        }
     }
-
-    componentWillMount() { }
 
     typeChange = async (val) => {
         let currentItem;
@@ -37,39 +30,33 @@ class TakeGoodItem extends Component {
             }
         }
 
-        this.priceChange(currentItem.price);
+        store.dispatch(updateGoodsOrder(this.props.index, {
+            ...this.props.data,
+            price: currentItem.price,
+            typeId: currentItem.id
+        }));
     }
 
     priceChange = async (val) => {
-        await this.setState({
-            data: {
-                ...this.state.data,
-                price: val,
-                amount: val * this.state.data.weight
-            }
-        })
-
-        store.dispatch(updateGoodsOrder(this.state.index, this.state.data));
+        store.dispatch(updateGoodsOrder(this.props.index, {
+            ...this.props.data,
+            price: val
+        }));
     }
 
     weightChange = async (val) => {
-        await this.setState({
-            data: {
-                ...this.state.data,
-                weight: val,
-                amount: val * this.state.data.price
-            }
-        })
-
-        store.dispatch(updateGoodsOrder(this.state.index, this.state.data));
+        store.dispatch(updateGoodsOrder(this.props.index, {
+            ...this.props.data,
+            weight: val
+        }));
     }
 
     deleteItem = () => {
-        store.dispatch(deleteGoodsOrder(this.state.index))
+        store.dispatch(deleteGoodsOrder(this.props.index))
     }
 
     render() {
-        let itemData = this.state.data;
+        let itemData = this.props.data;
         return (
             <li>
                 <span>{this.props.index + 1}.</span>

@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-06-04 19:54:08 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-07-09 08:28:06
+ * @Last Modified time: 2018-07-09 22:11:50
  * @content: 
  */
 
@@ -65,6 +65,7 @@ class TakeGood extends Component {
                 </div>
                 <ol className="take-good-list">
                     {this.props.takeGoodOrder.list.map((item, index) => {
+                        console.log("what", item)
                         return (
                             <TakeGoodItem key={index} index={index} data={item} />
                         )
@@ -92,6 +93,7 @@ TakeGood.propTypes = {
 const mapStateToProps = (state) => {
     let { rows } = state.types;
     let takeGoodOrder = state.takeGoodOrder;
+    console.log(111111111111111, takeGoodOrder)
     return {
         types: rows,
         takeGoodOrder

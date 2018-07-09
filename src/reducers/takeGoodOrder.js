@@ -1,8 +1,8 @@
 const initState = {
     list: [{
         typeId: undefined,
-        price: 0,
-        weight: 0,
+        price: "",
+        weight: "",
         amount: 0
     }],
     totalAmount: 0
@@ -11,6 +11,7 @@ const initState = {
 let computeAmount = (arr) => {
     let sum = 0;
     for (let item of arr) {
+        item.amount = item.price * item.weight || 0;
         sum += item.amount;
     }
 
@@ -23,8 +24,8 @@ const takeGoodOrder = (state = initState, action) => {
         case "ADD_GOODS_ORDER":
             state.list.push({
                 typeId: undefined,
-                price: 0,
-                weight: 0,
+                price: "",
+                weight: "",
                 amount: 0
             })
             return {
@@ -42,7 +43,9 @@ const takeGoodOrder = (state = initState, action) => {
         case "DELETE_GOODS_ORDER":
             {
                 let { index } = action.payload;
+                console.log("DELETE_GOODS_ORDER   ", index);
                 state.list.splice(index, 1);
+
                 state.totalAmount = computeAmount(state.list);
                 return {
                     ...state
