@@ -1,8 +1,8 @@
 /*
  * @Author: Mr.He 
  * @Date: 2018-06-04 19:54:08 
- * @Last Modified by: Mr.He
- * @Last Modified time: 2018-07-09 22:11:50
+ * @Last Modified by: he@whaleblue.design
+ * @Last Modified time: 2018-07-24 23:27:56
  * @content: 
  */
 
@@ -15,7 +15,7 @@ const Option = Select.Option;
 const InputGroup = Input.Group;
 import "./index.css";
 import { fetchType } from "../../actions/types";
-import { addGoodsOrder } from "../../actions/takeGoodOrder";
+import { addGoodsOrder, submitGoodsOrder } from "../../actions/takeGoodOrder";
 import store from "../../store";
 import TakeGoodItem from "./todo.jsx";
 
@@ -46,6 +46,21 @@ class TakeGood extends Component {
         store.dispatch(addGoodsOrder())
     }
 
+    submit = async () => {
+        if (!this.props.takeGoodOrder.totalAmount) {
+            return alert("请输入数据");
+        }
+        let data = this.props.takeGoodOrder.list;
+        for (let i = 0; i < data.length; i++) {
+            if (!data[i].amount || !data[i].typeId) {
+                return alert(`数据不全`)
+            }
+        }
+
+        await store.dispatch(submitGoodsOrder())
+        alert("数据保存成功");
+    }
+
     render() {
 
         return (
@@ -65,7 +80,6 @@ class TakeGood extends Component {
                 </div>
                 <ol className="take-good-list">
                     {this.props.takeGoodOrder.list.map((item, index) => {
-                        console.log("what", item)
                         return (
                             <TakeGoodItem key={index} index={index} data={item} />
                         )
@@ -79,7 +93,7 @@ class TakeGood extends Component {
                         添加一项
                     </Button>
                 </div>
-                <Button type="primary" className="fr">提交</Button>
+                <Button type="primary" className="fr" onClick={this.submit}>提交</Button>
             </section>
         )
     }
@@ -93,7 +107,6 @@ TakeGood.propTypes = {
 const mapStateToProps = (state) => {
     let { rows } = state.types;
     let takeGoodOrder = state.takeGoodOrder;
-    console.log(111111111111111, takeGoodOrder)
     return {
         types: rows,
         takeGoodOrder

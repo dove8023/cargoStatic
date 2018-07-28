@@ -1,3 +1,8 @@
+import { numFliter } from "../utils/common";
+import _ from "lodash";
+import { Ajax } from "../utils/common";
+
+
 const initState = {
     list: [{
         typeId: undefined,
@@ -5,21 +10,23 @@ const initState = {
         weight: "",
         amount: 0
     }],
-    totalAmount: 0
+    totalAmount: 0,
+    customerId: "1df8c810-8f4c-11e8-97f6-3df5a051d733",
+    loading: false
 }
 
 let computeAmount = (arr) => {
     let sum = 0;
     for (let item of arr) {
-        item.amount = item.price * item.weight || 0;
+        item.amount = numFliter(item.price * item.weight) || 0;
         sum += item.amount;
     }
-
+    sum = sum.toFixed(2);
     return sum;
 }
 
 
-const takeGoodOrder = (state = initState, action) => {
+const takeGoodOrder = (state = _.cloneDeep(initState), action) => {
     switch (action.type) {
         case "ADD_GOODS_ORDER":
             state.list.push({
@@ -28,6 +35,8 @@ const takeGoodOrder = (state = initState, action) => {
                 weight: "",
                 amount: 0
             })
+
+            console.log("ok ", initState)
             return {
                 ...state
             }
@@ -50,6 +59,18 @@ const takeGoodOrder = (state = initState, action) => {
                 return {
                     ...state
                 };
+            }
+
+        case "SUBMIT_GOODS_ORDER_PENDING":
+
+            return { ...state, loading: true };
+        case "SUBMIT_GOODS_ORDER_FULFILLED":
+            {
+                let state = _.cloneDeep(initState);
+                return {
+                    ...state,
+                    loading: false
+                }
             }
         default:
             return state;

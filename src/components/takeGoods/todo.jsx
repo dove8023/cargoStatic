@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-07-08 21:11:38 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-07-09 22:43:23
+ * @Last Modified time: 2018-07-16 22:28:46
  * @content what is the content of this file. */
 
 import React, { Component } from "react";
@@ -69,8 +69,8 @@ class TakeGoodItem extends Component {
                             )
                         })}
                     </Select>
-                    <InputNumber onChange={this.priceChange} placeholder="单价" value={itemData.price} />
-                    <InputNumber onChange={this.weightChange} placeholder="重量" value={itemData.weight} />
+                    <InputNumber onChange={this.priceChange} placeholder="单价(元/kg)" value={itemData.price} />
+                    <InputNumber onChange={this.weightChange} placeholder="重量(kg)" value={itemData.weight} />
                 </InputGroup>
 
                 <span className="fr">
