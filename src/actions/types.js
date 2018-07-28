@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-07-01 21:44:00 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-07-04 23:12:55
+ * @Last Modified time: 2018-07-28 14:42:52
  * @content what is the content of this file. */
 
 import { Ajax } from "../utils/common";

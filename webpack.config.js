@@ -6,33 +6,45 @@ let conf = require('dotenv').load()
 const webpack = require("webpack");
 require("babel-core/register");
 require("babel-polyfill");
+const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const env = process.env.NODE_ENV || "development";
 
 module.exports = {
     entry: ['babel-polyfill', "./src/index.jsx"],
-    /* entry: {
-        index: "./src/js/index.js",
-        two: "./src/js/two.js"
-    }, */
     output: {
         filename: "[name].[chunkhash].bundle.js",
         path: path.resolve(__dirname, "dist")
     },
     plugins: [
         new cleanWebpackPlugin(["dist"]),
+        new CopyWebpackPlugin([{
+            context: __dirname,
+            from: "./libs",
+            to: "./"
+        }]),
+        new webpack.DllReferencePlugin({
+            context: __dirname,
+            manifest: require("./manifest.json")
+        }),
         new htmlWebpackPlugin({
             title: "Index One",
             favicon: 'favicon.ico',
             filename: "index.html",
             template: "index.html"
         }),
-        new webpack.DefinePlugin({
-            BACK_SYSTEM_URL: JSON.stringify(process.env.BACK_SYSTEM_URL)
+        // new webpack.DefinePlugin({
+        //     BACK_SYSTEM_URL: JSON.stringify(process.env.BACK_SYSTEM_URL)
+        // }),
+        new HtmlWebpackIncludeAssetsPlugin({
+            assets: ['lib.js'],
+            files: ['index.html'],
+            append: false,
+            hash: true
         }),
-        // new uglifyJsPlugin()
     ],
-    devtool: "inline-source-map",
-    // mode: "production",
-    mode: "development",
+    devtool: env == "production" ? false : "inline-source-map",
+    mode: env,
     module: {
         rules: [
             {
@@ -54,16 +66,6 @@ module.exports = {
                     'file-loader'
                 ]
             },
-            // {
-            //     test: /\.js$/,
-            //     exclude: /node_modules/,
-            //     use: {
-            //         loader: 'babel-loader',
-            //         options: {
-            //             presets: ["react"]
-            //         }
-            //     }
-            // },
             {
                 test: /\.(html|ico)$/,
                 use: [
