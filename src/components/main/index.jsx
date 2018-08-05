@@ -1,8 +1,8 @@
 /*
  * @Author: Mr.He 
  * @Date: 2018-06-04 19:37:42 
- * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-27 09:53:43
+ * @Last Modified by: he@whaleblue.design
+ * @Last Modified time: 2018-07-29 11:24:37
  * @content: 
  */
 
@@ -14,6 +14,7 @@ import "./index.css";
 import MainSider from "./side.jsx";
 import Types from "../types/index.jsx";
 import TakeGood from "../takeGoods/index.jsx";
+import Order from "../order/index.jsx";
 
 export default class APP extends Component {
     constructor() {
@@ -51,6 +52,7 @@ export default class APP extends Component {
                                 <Route exact path="/main" component={TakeGood} />
                                 <Route path="/main/takeGood" component={TakeGood} />
                                 <Route path="/main/types" component={Types} />
+                                <Route path="/main/Order" component={Order} />
                             </div>
                         </Content>
                         {/* <Footer style={{ textAlign: 'center' }}>

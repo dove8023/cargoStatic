@@ -1,8 +1,8 @@
 /*
  * @Author: Mr.He 
  * @Date: 2018-07-26 12:22:21 
- * @Last Modified by: Mr.He
- * @Last Modified time: 2018-07-04 23:11:22
+ * @Last Modified by: he@whaleblue.design
+ * @Last Modified time: 2018-08-02 23:19:25
  * @content what is the content of this file. */
 
 import React, { Component } from "react";
@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { List, Avatar, Button, Spin, Modal, InputNumber, Input } from 'antd';
 import "./index.css";
 import store from "../../store";
-import { fetchType, updateType, addType } from "../../actions/types";
+import { fetchOrder } from "../../actions/order";
 
 class Orders extends Component {
     constructor(props) {
@@ -24,76 +24,8 @@ class Orders extends Component {
         modalLoading: false,
     }
 
-    handleCancel = () => {
-        this.setState({
-            visible: false
-        })
-    }
-
-    handleOk = async () => {
-        let { name, price, id } = this.state.currentData;
-        price = Number(price);
-
-        if (!name) {
-            return alert("名称不合法");
-        }
-
-        if (!price || price <= 0) {
-            return alert("价格不合法");
-        }
-
-        this.setState({
-            modalLoading: true
-        });
-
-        if (this.state.currentData.type == "add") {
-            await store.dispatch(addType(price, name));
-        } else {
-            await store.dispatch(updateType(id, price, name));
-        }
-
-        this.setState({
-            modalLoading: false,
-            visible: false
-        })
-    }
-
-    settings = (record) => {
-        this.setState({
-            currentData: record,
-            visible: true
-        })
-    }
-
-    typeAdd = () => {
-        this.setState({
-            visible: true,
-            currentData: {
-                type: "add"
-            }
-        })
-    }
-
-    typeNameChange = (e) => {
-        this.setState({
-            currentData: {
-                ...this.state.currentData,
-                name: e.target.value
-            }
-        })
-    }
-
-    typePriceChange = (e) => {
-        this.setState({
-            currentData: {
-                ...this.state.currentData,
-                price: e
-            }
-        })
-    }
-
     componentDidMount() {
-        store.dispatch(fetchType())
+        store.dispatch(fetchOrder())
     }
 
     render() {
@@ -102,9 +34,6 @@ class Orders extends Component {
                 <h2>
                     收货记录
                 </h2>
-                <Button type="primary" onClick={this.typeAdd}>
-                    添加品种
-                </Button>
                 <List
                     className="demo-loadmore-list"
                     loading={this.props.loading}
@@ -112,57 +41,40 @@ class Orders extends Component {
                     dataSource={this.props.listData}
                     renderItem={(item, index) => (
                         <div className="list">
-                            <div className="fl">
+                            <div className="fl mr10">
                                 {index + 1}. &nbsp;
-                                名称 : <strong>{item.name}</strong>
+                                金额 : <strong>{item.totalAmount}</strong>
                                 <br />
-                                价格 : <strong>{item.price}</strong> ¥/kg
+                                时间 : <strong>{item.created_at}</strong>
                             </div>
-                            <p></p>
-                            <Button type="default" onClick={() => {
-                                this.settings(item)
-                            }} className="fr">
-                                修改
-                            </Button>
+                            <p>
+                                客户 : {item.customerId}
+                                <br />
+                                操作员: {item.operaterId}
+
+                                <Button type="default">详情</Button>
+                            </p>
                         </div>
                     )}
                 />
-                <Modal
-                    title={this.state.currentData.type == "add" ? "品种添加" : "品种详情"}
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
-                    footer={[
-                        <Button key="back" onClick={this.handleCancel}>取消</Button>,
-                        <Button key="submit" type="primary" loading={this.state.modalLoading} onClick={this.handleOk}>
-                            {this.state.currentData.type == "add" ? "确认添加" : "确认修改"}
-                        </Button>
-                    ]}
-                    destroyOnClose={true}
-                >
-                    <div className="mb10">
-                        名称 : <Input defaultValue={this.state.currentData.name} onChange={this.typeNameChange} style={{ "width": "60%" }}></Input>
-                    </div>
-                    <div>
-                        价格 : <InputNumber defaultValue={this.state.currentData.price} onChange={this.typePriceChange} /> 元/kg
-                    </div>
-                </Modal>
             </section>
         );
     }
 }
 
 Orders.propTypes = {
-    orders: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired
+    listData: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
+    count: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state) => {
-    let { rows, loading } = state.orders;
+    let { rows, loading, count } = state.orders;
     return {
-        orders: rows,
+        listData: rows,
+        count,
         loading
     }
 }
 
-export default connect(mapStateToProps)(Types);
+export default connect(mapStateToProps)(Orders);
