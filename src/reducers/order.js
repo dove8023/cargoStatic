@@ -2,7 +2,6 @@ const ordersInitState = {
     rows: [],
     count: 0,
     loading: false,
-    orderDetail: {}
 }
 
 const orders = (state = ordersInitState, action) => {
@@ -17,11 +16,6 @@ const orders = (state = ordersInitState, action) => {
                 ...state,
                 loading: false,
                 ...action.payload
-            }
-        case "FETCH_ORDER_DETAIL_PENDING":
-            return {
-                ...state,
-                orderDetail : action.payload
             }
         // case "UPDATE_ORDER_PENDING":
         //     return state;

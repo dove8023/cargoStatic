@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-07-26 12:22:21 
  * @Last Modified by: he@whaleblue.design
- * @Last Modified time: 2018-08-02 23:19:25
+ * @Last Modified time: 2018-08-07 22:32:21
  * @content what is the content of this file. */
 
 import React, { Component } from "react";
@@ -11,8 +11,8 @@ import { connect } from "react-redux";
 import { List, Avatar, Button, Spin, Modal, InputNumber, Input } from 'antd';
 import "./index.css";
 import store from "../../store";
-import { fetchOrder, fetchOrderDetail } from "../../actions/order";
-import {} from "../../utils/common"
+import { fetchOrder } from "../../actions/order";
+import { Ajax } from "../../utils/common"
 
 class Orders extends Component {
     constructor(props) {
@@ -36,7 +36,6 @@ class Orders extends Component {
     }
 
     settings = async (orderId) => {
-        let 
         this.setState({
             orderDetail: orderId,
             visible: true
