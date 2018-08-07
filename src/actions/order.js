@@ -27,3 +27,22 @@ export const fetchOrder = () => {
         payload: getOrders()
     }
 }
+
+let getOrderDetail = async (id) => {
+    let result = await Ajax({
+        url: "/order/" + id
+    })
+
+    if (result.code != 0) {
+        return alert(result.msg);
+    }
+
+    return result.data;
+}
+
+export const fetchOrderDetail = (orderId) => {
+    return {
+        type: "FETCH_ORDER_DETAIL",
+        payload: getOrderDetail(orderId)
+    }
+}

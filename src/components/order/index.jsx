@@ -11,7 +11,8 @@ import { connect } from "react-redux";
 import { List, Avatar, Button, Spin, Modal, InputNumber, Input } from 'antd';
 import "./index.css";
 import store from "../../store";
-import { fetchOrder } from "../../actions/order";
+import { fetchOrder, fetchOrderDetail } from "../../actions/order";
+import {} from "../../utils/common"
 
 class Orders extends Component {
     constructor(props) {
@@ -19,13 +20,27 @@ class Orders extends Component {
     }
 
     state = {
-        currentData: {},
         visible: false,
         modalLoading: false,
+        orderDetail: {}
     }
 
     componentDidMount() {
         store.dispatch(fetchOrder())
+    }
+
+    handleCancel = () => {
+        this.setState({
+            visible: false
+        })
+    }
+
+    settings = async (orderId) => {
+        let 
+        this.setState({
+            orderDetail: orderId,
+            visible: true
+        })
     }
 
     render() {
@@ -52,11 +67,33 @@ class Orders extends Component {
                                 <br />
                                 操作员: {item.operaterId}
 
-                                <Button type="default">详情</Button>
+                                <Button type="default" onClick={() => {
+                                    this.settings(item.id)
+                                }} className="fr">
+                                    详情
+                                </Button>
                             </p>
                         </div>
                     )}
                 />
+                <Modal
+                    title="订单详情"
+                    visible={this.state.visible}
+                    onOk={this.handleCancel}
+                    onCancel={this.handleCancel}
+                    footer={[
+                        <Button key="back" onClick={this.handleCancel}>取消</Button>,
+                        <Button key="submit" type="primary" onClick={this.handleCancel}>确认</Button>
+                    ]}
+                    destroyOnClose={true}
+                >
+                    <div className="mb10">
+                        名称：<span>{this.state.orderDetail}</span>
+                    </div>
+                    <div>
+                        价格：<span>{this.state.orderDetail}</span>
+                    </div>
+                </Modal>
             </section>
         );
     }
@@ -65,15 +102,17 @@ class Orders extends Component {
 Orders.propTypes = {
     listData: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
-    count: PropTypes.number.isRequired
+    count: PropTypes.number.isRequired,
+    orderDetail: PropTypes.object
 }
 
 const mapStateToProps = (state) => {
-    let { rows, loading, count } = state.orders;
+    let { rows, loading, count, orderDetail } = state.orders;
     return {
         listData: rows,
         count,
-        loading
+        loading,
+        orderDetail
     }
 }
 
