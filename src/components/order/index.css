@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-06-10 12:21:24 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-10 18:41:37
+ * @Last Modified time: 2018-09-04 21:57:56
  * @content what is the content of this file. */
 
 
@@ -10,4 +10,22 @@
      padding: 10px;
      border-bottom: 1px solid #ccc;
      overflow: hidden;
+ }
+ .order-detail-item{
+     overflow: hidden;
+     border-bottom: 1px solid #ccc;
+     margin-bottom: 10px;
+     padding: 5px 0;
+ }
+ .order-detail-item:last-child{
+     border: none;
+ }
+
+ .order-detail-item span{
+     float: left;
+     width: 45%;
+     text-align: right;
+ }
+ .order-detail-item span.special{
+     width: 10%;
  }

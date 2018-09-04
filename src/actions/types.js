@@ -2,10 +2,21 @@
  * @Author: Mr.He 
  * @Date: 2018-07-01 21:44:00 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-07-28 14:42:52
+ * @Last Modified time: 2018-09-02 22:30:54
  * @content what is the content of this file. */
 
 import { Ajax } from "../utils/common";
+
+export let getType = async (id) => {
+    let result = await Ajax({
+        url: "/types/" + id,
+    });
+
+    if (result.code != 0) {
+        return alert(result.msg);
+    }
+    return result.data;
+}
 
 let getTypes = async () => {
     let result = await Ajax({

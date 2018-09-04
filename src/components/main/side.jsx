@@ -1,8 +1,8 @@
 /*
  * @Author: Mr.He 
  * @Date: 2018-06-09 17:32:12 
- * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-10 12:20:57
+ * @Last Modified by: he@whaleblue.design
+ * @Last Modified time: 2018-08-19 16:16:15
  * @content: side. */
 
 import React, { Component } from "react";
@@ -61,6 +61,12 @@ export default class MainSider extends Component {
                         <Icon type="user" />
                         <span className="nav-text">
                             用户管理
+                        </span>
+                    </Menu.Item>
+                    <Menu.Item key="7">
+                        <Icon type="user" />
+                        <span className="nav-text">
+                            退出
                         </span>
                     </Menu.Item>
                 </Menu>

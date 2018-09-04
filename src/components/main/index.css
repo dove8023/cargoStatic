@@ -1,8 +1,8 @@
 /*
  * @Author: Mr.He 
  * @Date: 2018-06-09 17:15:30 
- * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-09 17:19:09
+ * @Last Modified by: he@whaleblue.design
+ * @Last Modified time: 2018-08-19 16:19:28
  * @content what is the content of this file. */
 
  .logo {
@@ -13,4 +13,8 @@
     line-height: 32px;
     text-align: center;
     color: #fff;
+}
+.nav-text a{
+    display: inline-block;
+    width: 140px;
 }

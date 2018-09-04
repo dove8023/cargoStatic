@@ -1,8 +1,8 @@
 /*
  * @Author: Mr.He 
  * @Date: 2018-06-04 19:37:42 
- * @Last Modified by: he@whaleblue.design
- * @Last Modified time: 2018-07-29 11:24:37
+ * @Last Modified by: Mr.He
+ * @Last Modified time: 2018-09-02 22:28:46
  * @content: 
  */
 
@@ -15,6 +15,8 @@ import MainSider from "./side.jsx";
 import Types from "../types/index.jsx";
 import TakeGood from "../takeGoods/index.jsx";
 import Order from "../order/index.jsx";
+import { fetchType } from "../../actions/types";
+import store from "../../store";
 
 export default class APP extends Component {
     constructor() {
