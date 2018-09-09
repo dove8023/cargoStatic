@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-06-04 19:37:42 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-09-02 22:28:46
+ * @Last Modified time: 2018-09-04 22:39:05
  * @content: 
  */
 
@@ -15,8 +15,7 @@ import MainSider from "./side.jsx";
 import Types from "../types/index.jsx";
 import TakeGood from "../takeGoods/index.jsx";
 import Order from "../order/index.jsx";
-import { fetchType } from "../../actions/types";
-import store from "../../store";
+import Customer from "../customer/index.jsx";
 
 export default class APP extends Component {
     constructor() {
@@ -55,6 +54,7 @@ export default class APP extends Component {
                                 <Route path="/main/takeGood" component={TakeGood} />
                                 <Route path="/main/types" component={Types} />
                                 <Route path="/main/Order" component={Order} />
+                                <Route path="/main/customer" component={Customer} />
                             </div>
                         </Content>
                         {/* <Footer style={{ textAlign: 'center' }}>
