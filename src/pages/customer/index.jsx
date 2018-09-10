@@ -2,17 +2,18 @@
  * @Author: Mr.He 
  * @Date: 2018-06-10 12:22:21 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-09-06 22:47:34
+ * @Last Modified time: 2018-09-10 23:07:49
  * @content what is the content of this file. */
 
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { List, Avatar, Button, Spin, Modal, InputNumber, Input } from 'antd';
+import { List, Avatar, Button, Spin, Modal, InputNumber, Input, Table } from 'antd';
 import "./index.css";
 import store from "../../store";
 import { fetchType, updateType, addType } from "../../actions/types";
-import { Ajax } from "../../utils/common"
+import { Ajax } from "../../utils/common";
+// import 
 
 class Customer extends Component {
     constructor(props) {
@@ -21,78 +22,12 @@ class Customer extends Component {
 
     state = {
         currentData: {},
-        visible: false,
-        modalLoading: false,
+        addVisible: false,
         list: [],
-        loading: false
-    }
-
-    handleCancel = () => {
-        this.setState({
-            visible: false
-        })
-    }
-
-    handleOk = async () => {
-        let { name, price, id } = this.state.currentData;
-        price = Number(price);
-
-        if (!name) {
-            return alert("名称不合法");
-        }
-
-        if (!price || price <= 0) {
-            return alert("价格不合法");
-        }
-
-        this.setState({
-            modalLoading: true
-        });
-
-        if (this.state.currentData.type == "add") {
-            await store.dispatch(addType(price, name));
-        } else {
-            await store.dispatch(updateType(id, price, name));
-        }
-
-        this.setState({
-            modalLoading: false,
-            visible: false
-        })
-    }
-
-    settings = (record) => {
-        this.setState({
-            currentData: record,
-            visible: true
-        })
-    }
-
-    typeAdd = () => {
-        this.setState({
-            visible: true,
-            currentData: {
-                type: "add"
-            }
-        })
-    }
-
-    typeNameChange = (e) => {
-        this.setState({
-            currentData: {
-                ...this.state.currentData,
-                name: e.target.value
-            }
-        })
-    }
-
-    typePriceChange = (e) => {
-        this.setState({
-            currentData: {
-                ...this.state.currentData,
-                price: e
-            }
-        })
+        loading: false,
+        loadMore: true,
+        addSubmitLoading: false,
+        addCustomer: {}
     }
 
     async componentDidMount() {
@@ -108,62 +43,152 @@ class Customer extends Component {
         })
     }
 
+    del = async (item) => {
+        let check = confirm("客户删除后不可恢复(客户之前的记录仍将保存)");
+        if (!check) {
+            return;
+        }
+
+        let result = await Ajax({
+            url: "/customer/" + item.id,
+            method: "delete",
+            before: () => {
+                this.setState({
+                    loading: true
+                })
+            },
+            complete: () => {
+                this.setState({
+                    loading: false
+                })
+            }
+        });
+
+        if (result.code != 0) {
+            alert(result.msg)
+        } else {
+            this.componentDidMount()
+        }
+    }
+
+    tapAdd = () => {
+        this.setState({
+            addVisible: true
+        })
+    }
+
+    addCancel = () => {
+        this.setState({
+            addVisible: false
+        })
+    }
+
+    addChange = (key, value) => {
+        if (!value) {
+            return;
+        }
+        value = value.trim();
+        let addCustomer = this.state.addCustomer;
+        addCustomer[key] = value;
+        this.setState({
+            addCustomer
+        })
+    }
+
+    addSubmit = async () => {
+        let data = this.state.addCustomer;
+        if (!data.name) {
+            return alert("客户名称是必须的");
+        }
+
+        let result = await Ajax({
+            url: "/customer",
+            before: () => {
+                this.setState({ addSubmitLoading: true })
+            },
+            complete: () => {
+                this.setState({ addSubmitLoading: false })
+            },
+            method: "post",
+            data
+        })
+
+        if (result.code == 0) {
+            this.setState({
+                addVisible: false
+            }, () => {
+                this.componentDidMount()
+            })
+        } else {
+            alert(result.msg);
+        }
+    }
+
+    editor(item) {
+        console.log(1111, item)
+        this.setState({
+
+        })
+    }
+
     render() {
         return (
             <section>
                 <h2>
                     客户管理
                 </h2>
-                <Button type="primary" onClick={this.typeAdd}>
+                <Button type="primary" onClick={this.tapAdd}>
                     客户添加
                 </Button>
+
                 <List
-                    className="demo-loadmore-list"
+                    className=""
                     loading={this.state.loading}
                     itemLayout="horizontal"
+                    loadMore={this.state.loadMore}
                     dataSource={this.state.list}
                     renderItem={(item, index) => (
-                        <div className="list">
-                            <div className="fl">
-                                {index + 1}. &nbsp;
-                                <strong>
-                                    {item.name}
-                                </strong>
+                        <List.Item actions={[<a onClick={() => { this.editor(item) }}>编辑</a>, <a onClick={() => { this.del(item) }}>删除</a>]}>
+                            {index + 1}.
+                            <div className="pl5">
+                                姓名: {item.name}
                                 <br />
-                                价格 :
-                                <strong>
-                                    {item.price}
-                                </strong>
-                                ¥/kg
+                                地址: {item.address || '--'}
+                                <br />
+                                手机: {item.mobile || '--'}
+                                <br />
+                                其它: {item.other || '--'}
                             </div>
-                            <p></p>
-                            <Button type="default" onClick={() => {
-                                this.settings(item)
-                            }} className="fr">
-                                修改
-                            </Button>
-                        </div>
+                        </List.Item>
                     )}
                 />
+
                 <Modal
-                    title={this.state.currentData.type == "add" ? "品种添加" : "品种详情"}
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
+                    title="添加客户"
+                    visible={this.state.addVisible}
+                    onCancel={this.addCancel}
                     footer={[
-                        <Button key="back" onClick={this.handleCancel}>取消</Button>,
-                        <Button key="submit" type="primary" loading={this.state.modalLoading} onClick={this.handleOk}>
-                            {this.state.currentData.type == "add" ? "确认添加" : "确认修改"}
+                        <Button key="submit" type="primary" loading={this.state.addSubmitLoading} onClick={this.addSubmit}>
+                            添加
                         </Button>
                     ]}
                     destroyOnClose={true}
                 >
-                    <div className="mb10">
-                        名称 : <Input defaultValue={this.state.currentData.name} onChange={this.typeNameChange} style={{ "width": "60%" }}></Input>
-                    </div>
-                    <div>
-                        价格 : <InputNumber defaultValue={this.state.currentData.price} onChange={this.typePriceChange} /> 元/kg
-                    </div>
+                    姓名*:<Input onChange={(e) => {
+                        this.addChange('name', e.target.value)
+                    }} style={{ "width": "80%", "marginBottom": "5px" }}></Input>
+                    <br />
+                    电话&nbsp;: <Input onChange={(e) => {
+                        this.addChange('mobile', e.target.value)
+                    }} style={{ "width": "80%", "marginBottom": "5px" }}></Input>
+                    <br />
+                    地址&nbsp;: <Input onChange={(e) => {
+                        this.addChange('address', e.target.value)
+                    }} style={{ "width": "80%", "marginBottom": "5px" }}></Input>
+                    <br />
+                    其它&nbsp;: <Input onChange={(e) => {
+                        this.addChange('other', e.target.value)
+                    }} style={{ "width": "80%", "marginBottom": "5px" }}></Input>
                 </Modal>
             </section>
         );

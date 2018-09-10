@@ -8,5 +8,5 @@ export default combineReducers({
     types,
     takeGoodOrder,
     orders,
-    customers
+    // customers
 })
