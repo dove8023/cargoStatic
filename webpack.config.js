@@ -8,7 +8,7 @@ require("babel-core/register");
 require("babel-polyfill");
 const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const env = process.env.NODE_ENV || "development";
+const env = /* process.env.NODE_ENV || */ "development";
 
 module.exports = {
     entry: ['babel-polyfill', "./src/index.jsx"],

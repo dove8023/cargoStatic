@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-06-09 17:32:12 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-06-10 12:20:57
+ * @Last Modified time: 2018-09-04 22:36:14
  * @content: side. */
 
 import React, { Component } from "react";
@@ -48,7 +48,9 @@ export default class MainSider extends Component {
                     <Menu.Item key="4">
                         <Icon type="user" />
                         <span className="nav-text">
-                            客户管理
+                            <Link to="/main/customer">
+                                客户管理
+                            </Link>
                         </span>
                     </Menu.Item>
                     <Menu.Item key="5">
@@ -61,6 +63,12 @@ export default class MainSider extends Component {
                         <Icon type="user" />
                         <span className="nav-text">
                             用户管理
+                        </span>
+                    </Menu.Item>
+                    <Menu.Item key="7">
+                        <Icon type="user" />
+                        <span className="nav-text">
+                            退出
                         </span>
                     </Menu.Item>
                 </Menu>

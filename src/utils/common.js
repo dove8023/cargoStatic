@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-05-28 11:34:39 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-07-12 23:13:50
+ * @Last Modified time: 2018-09-24 22:35:31
  */
 
 import axios from "axios";
@@ -46,18 +46,3 @@ export function numFliter(num, digit = 2) {
     const VAL = Math.pow(10, digit);
     return Math.floor(VAL * num) / VAL;
 }
-
-
-// Ajax({
-//     url: "/test",
-// });
-
-
-// Ajax({
-//     url: "/open/test",
-// });
-
-// Ajax({
-//     url: "/open/11test",
-// });
-

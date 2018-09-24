@@ -1,8 +1,8 @@
 /*
  * @Author: Mr.He 
  * @Date: 2018-07-01 22:37:58 
- * @Last Modified by: Mr.He
- * @Last Modified time: 2018-07-28 14:40:30
+ * @Last Modified by: he@whaleblue.design
+ * @Last Modified time: 2018-07-29 11:15:23
  * @content what is the content of this file. */
 
 import { createStore, applyMiddleware } from 'redux';

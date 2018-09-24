@@ -30,6 +30,9 @@ body{
     height: 65px;
 }
 
+.pl5{
+    padding-left: 5px;
+}
 .pt60{
     padding-top: 60px;
 }

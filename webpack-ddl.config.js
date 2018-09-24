@@ -1,8 +1,8 @@
 const webpack = require('webpack');
 const path = require("path");
 const cleanWebpackPlugin = require("clean-webpack-plugin");
-let env = process.env.NODE_ENV || "production";
-
+let env = /* process.env.NODE_ENV ||  */ "production";
+console.log("ddl env: ", env)
 
 const vendors = [
     'react',
