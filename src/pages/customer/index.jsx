@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-06-10 12:22:21 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-09-10 23:07:49
+ * @Last Modified time: 2018-09-24 22:57:39
  * @content what is the content of this file. */
 
 import React, { Component } from "react";
@@ -13,7 +13,7 @@ import "./index.css";
 import store from "../../store";
 import { fetchType, updateType, addType } from "../../actions/types";
 import { Ajax } from "../../utils/common";
-// import 
+import EditorModel from "./editorModel.jsx";
 
 class Customer extends Component {
     constructor(props) {
@@ -23,6 +23,8 @@ class Customer extends Component {
     state = {
         currentData: {},
         addVisible: false,
+        editorModel: false,
+        editorModelData: {},
         list: [],
         loading: false,
         loadMore: true,
@@ -127,7 +129,8 @@ class Customer extends Component {
     editor(item) {
         console.log(1111, item)
         this.setState({
-
+            editorModel: true,
+            editorModelData: item
         })
     }
 
@@ -190,6 +193,12 @@ class Customer extends Component {
                         this.addChange('other', e.target.value)
                     }} style={{ "width": "80%", "marginBottom": "5px" }}></Input>
                 </Modal>
+
+                <EditorModel visible={this.state.editorModel} cancel={() => {
+                    this.setState({
+                        editorModel: false
+                    })
+                }} data={this.state.editorModelData} />
             </section>
         );
     }
