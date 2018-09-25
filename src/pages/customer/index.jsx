@@ -127,7 +127,6 @@ class Customer extends Component {
     }
 
     editor(item) {
-        console.log(1111, item)
         this.setState({
             editorModel: true,
             editorModelData: item

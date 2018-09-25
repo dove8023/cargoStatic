@@ -6,39 +6,42 @@
  * @content: editor Model */
 
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { List, Avatar, Button, Spin, Modal, InputNumber, Input, Table } from 'antd';
+import { Button, Modal, Input } from 'antd';
 import "./index.css";
-import store from "../../store";
-import { fetchType, updateType, addType } from "../../actions/types";
 import { Ajax } from "../../utils/common";
-// import 
 
 class EditorModel extends Component {
     constructor(props) {
-
-        console.log("hello ")
         super(props);
     }
 
     state = {
-
+        submitLoading: false
     }
 
-    addCancel = () => {
-        this.props.visible = true;
-    }
+    addSubmit = async () => {
+        let data = this.props.data;
+        let result = await Ajax({
+            url: '/customer/' + data.id,
+            method: "put",
+            data,
+            before: () => {
+                this.setState({
+                    submitLoading: true
+                })
+            },
+            complete: () => {
+                this.setState({
+                    submitLoading: false
+                })
+            }
+        });
 
-    addSubmit = () => {
-        console.log(this.props.data);
-    }
-    addChange = () => {
+        if (result.code != 0) {
+            return alert(result.msg);
+        }
 
-    }
-
-    componentDidMount = () => {
-        console.log(11111111, Date.now())
+        this.props.cancel();
     }
 
     render() {
@@ -46,11 +49,11 @@ class EditorModel extends Component {
 
         return (
             <Modal
-                title="添加客户"
+                title="编辑客户"
                 visible={this.props.visible}
                 onCancel={this.props.cancel}
                 footer={[
-                    <Button key="submit" type="primary" onClick={this.addSubmit}>
+                    <Button loading={this.state.submitLoading} key="submit" type="primary" onClick={this.addSubmit}>
                         添加
                         </Button>
                 ]}
@@ -65,8 +68,7 @@ class EditorModel extends Component {
                     style={{ "width": "80%", "marginBottom": "5px" }}
                 ></Input>
                 <br />
-                电话&nbsp;:
-                <Input
+                电话&nbsp;: <Input
                     defaultValue={data.mobile}
                     onChange={(e) => {
                         data.mobile = e.target.value;
