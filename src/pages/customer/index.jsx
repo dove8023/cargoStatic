@@ -46,7 +46,7 @@ class Customer extends Component {
     }
 
     del = async (item) => {
-        let check = confirm("客户删除后不可恢复(客户之前的记录仍将保存)");
+        let check = confirm("客户删除后不可恢复\n(客户之前的记录仍将存在)");
         if (!check) {
             return;
         }

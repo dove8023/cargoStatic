@@ -1,8 +1,8 @@
 /*
  * @Author: Mr.He 
  * @Date: 2018-06-04 19:54:08 
- * @Last Modified by: he@whaleblue.design
- * @Last Modified time: 2018-07-24 23:27:56
+ * @Last Modified by: Mr.He
+ * @Last Modified time: 2018-09-27 22:48:28
  * @content: 
  */
 
@@ -18,6 +18,7 @@ import { fetchType } from "../../actions/types";
 import { addGoodsOrder, submitGoodsOrder } from "../../actions/takeGoodOrder";
 import store from "../../store";
 import TakeGoodItem from "./todo.jsx";
+import SearchCustomer from '../../components/searchCustomer.jsx';
 
 class TakeGood extends Component {
     constructor(props) {
@@ -70,7 +71,7 @@ class TakeGood extends Component {
                  </h2>
                 <div className="clear">
                     <div className="fr">
-                        <Input style={{ "width": 120 }} placeholder="客户姓名" />
+                        <SearchCustomer placeholder="input search text" style={{ width: 200 }} />
                     </div>
                     <div className="fr mr10">
                         <span>
